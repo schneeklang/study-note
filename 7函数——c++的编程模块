@@ -1,0 +1,281 @@
+//程序清单7.3
+#include<iostream>
+#include<cstring>
+using namespace std;
+void n_chars(char, int);
+
+int main()
+{
+    int times;
+    char ch;
+    cout << "Enter a character: ";
+    cin >> ch;
+    while (ch != 'q')
+    {
+        cout << "Enter a integer: ";
+        cin >> times;
+        n_chars(ch, times);
+        cout << endl << "Enter another character or press 'q' to quit.";
+        cin >> ch; 
+    }
+    return 0;
+}
+ void n_chars(char c, int n)
+ {
+     while (n-- > 0)
+         cout << c << n;
+         //在语句n-- > 0执行完后再执行n--(如n=2>0=true;n=1)
+ }
+ 
+ //程序清单7.4
+ #include<iostream>
+using namespace std;
+long double porbability(unsigned numbers, unsigned picks);
+
+int main ()
+{
+    double total, choices;
+    cout << "Enter the total number of choices on the game card and"
+    << endl << " the number of picks allowed.: ";
+    while ((cin >> total >> choices) && (choices <= total))
+    //cin连续赋值
+    {
+        cout << "You have one chance in ";
+        cout << porbability(total, choices);
+        cout << " of winning.\n";
+        cout << "Next two numbers (q to quit): ";
+    }
+    cout << "Bye!";
+    return 0;
+}
+
+long double probability(unsigned numbers, unsigned picks)
+{
+    long double result = 1.0;
+    long double n;
+    unsigned p;
+    for (n = numbers, p = picks; p > 0; p--, n--)
+    //for循环可多个语句
+    {
+        result = result * (n / p);
+    }
+    return result;
+}
+
+//程序清单7.5
+#include<iostream>
+using namespace std;
+const int ArSize = 8;
+int sum_arr(int arr[], int n);
+
+int main ()
+{
+    int cookies[ArSize] = {1, 2, 4, 8, 16, 32, 64, 128};
+    int sum = sum_arr(cookies, ArSize);
+    cout << "Total cookies eaten: " << sum << endl;
+    return 0;
+}
+
+int sum_arr(int arr[], int n)
+{
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum += arr[i]; 
+    }
+    return sum;
+}
+
+//错误输入处理
+if (!cin)
+{
+    cin.clear();
+    while (cin.get() != '\n')
+        continue;
+        //清除错误输入
+}
+
+//程序清单7.7
+#include<iostream>
+#include<cstring>
+using namespace std;
+const int Max = 5;
+int fill_array(double ar[], int limit);
+void show_array(const double ar[],int n);
+void revalue_array(double r, double ar[], int n);
+
+int main ()
+{
+    double properties[Max];
+    int size = fill_array(properties, Max);
+    show_array(properties, size);
+    if (size > 0)
+    {
+        cout << "Enter revaluation factor: ";
+        double factor;
+        if(!(cin >> factor))
+        {
+            cin.clear();
+            while(cin.get() != '\n')
+                continue;
+            cout << "Bad input, please enter a number: " << endl;
+        }
+        revalue_array(factor, properties, size);
+        show_array(properties, size);
+    }
+    cout << "Done!" << endl;
+    cin.get();
+    cin.get();
+    return 0;
+}
+
+void show_array(const double ar[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << "property # " << (i + 1) << ": $";
+        cout << ar[i] << endl;
+    }
+}
+
+int fill_array(double ar[], int limit)
+{
+    double temp;
+    int i;
+    for (i = 0; i < limit; i++)
+    {
+        cout << "Enter value # " << (i + 1) << ": ";
+        cin >> temp;
+        if (!cin)
+        {
+            cin.clear();
+            while(cin.get() != '\n')
+                continue;
+            cout << "Bad input, input process terminated.";
+            break;
+        }
+        else if (temp < 0)
+            break;
+    ar[i] = temp;
+    }
+    return i;  
+}
+
+void revalue_array(double r, double ar[], int n)
+{
+    for (int i = 0; i < n; i++)
+        ar[i] *= r;
+}
+
+//程序清单7.9
+#include<iostream>
+#include<cstring>
+using namespace std;
+unsigned int c_in_str(const char * str, char ch);
+
+int main()
+{
+    char mmm[15] = "minimum";
+    char *wail = "ululate";
+    unsigned int ms = c_in_str(mmm, 'm');
+    unsigned int ns = c_in_str(wail, 'u');
+    cout << ms << " m characters in " << mmm << ".\n";
+    cout << ns << " u characters in " << wail << ".\n";
+    return 0;
+}
+
+unsigned int c_in_str(const char *str, char ch)
+{
+    unsigned int count = 0;
+    for (int i = 0; i < strlen(str); i++)
+    {
+        cout << strlen(str);
+        if (ch == *(str + i))
+           count++;
+        else
+           continue;
+    }
+    /*处理字符串的标准方式
+    while(*str) //当*str = '\0'时停止
+    {
+       statements
+       str++;
+    }*/
+    return count;
+}
+
+//程序清单7.10
+#include<iostream>
+#include<cstring>
+using namespace std;
+char * buildstr(char c, int n);
+
+int main()
+{
+    int times;
+    char ch;
+    cout << "Enter a character: ";
+    cin >> ch;
+    cout << "Enter a integer: ";
+    cin >> times;
+    char *ps = buildstr(ch, times);
+    cout << ps << endl;
+    delete [] ps;
+    ps = buildstr('+', 20);
+    cout << ps << "-DONE-" << ps << endl;
+    delete [] ps;
+    return 0;
+}
+
+char * buildstr(char c, int n)
+{
+    char * pstr = new char[n + 1];
+    pstr[n] = '\0';
+    while (n-- > 0)
+    {
+        pstr[n] = c;
+    }
+    //注意处理方式
+    return pstr;
+}
+
+//程序清单7.17(递归p200重点重新看着重202)
+#include<iostream>
+#include<cstring>
+const int Len = 66;
+const int Divs = 6;
+using namespace std;
+void subdivide(char ar[], int low, int hiagh, int level);
+
+int main()
+{
+    char ruler [Len];
+    int i;
+    for (i = 0; i < (Len - 2); i++)
+    {
+        ruler[i] = ' ';
+        ruler [Len - 1] = '\0';
+        int max = Len - 2;
+        int min = 0;
+        ruler[min] = ruler[max] = '|';
+        cout << ruler << endl;
+        for (int j = 1; j <  (Len - 2); j++)
+        {
+            subdivide(ruler, min, max, i);
+            ruler[j] = ' ';
+        }
+    }
+    return 0;
+}
+
+void subdivide(char ar[], int low, int high, int level)
+{
+    if (level == 0)
+    {
+        return;
+    }
+    int mid = (high + low) / 2;
+    ar[mid] = '|';
+    subdivide(ar, low, mid, level - 1);
+    subdivide(ar, mid, high, level - 1);
+}
